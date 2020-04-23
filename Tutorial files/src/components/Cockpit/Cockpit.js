@@ -4,7 +4,7 @@ import classes from './Cockpit.css'
 const Cockpit = props => {
     const assignedClasses = [];
     let btnClass=''
-    if ( props.showpersons ) {
+    if ( props.showPersons ) {
         btnClass = classes.Red;
     }
     if (props.persons.length <= 2) {
