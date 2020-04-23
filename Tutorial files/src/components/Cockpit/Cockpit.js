@@ -5,8 +5,12 @@ const Cockpit = props => {
 
     useEffect( () => {
       console.log("[Cockpit.js] useEffect()")
+      setTimeout( () => alert("Jaga Cries!!") , 1000 )
       //http: ...
-    } )
+    } ,[props.showPersons] )
+
+    //  useEffect() //multiple useEffects()
+
     const assignedClasses = [];
     let btnClass=''
     if ( props.showPersons ) {
