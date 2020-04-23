@@ -7,9 +7,13 @@ const Cockpit = props => {
       console.log("[Cockpit.js] useEffect()")
       setTimeout( () => alert("Jaga Cries!!") , 1000 )
       //http: ...
-    } ,[props.showPersons] )
+      return ( () => { console.log('[Cockpit.js] cleaned up!') }  )
+    } ,[props.Persons] )
 
-    //  useEffect() //multiple useEffects()
+    useEffect( () => {
+      console.log('[Cockpit.js] 2nd useEffect()')
+      return ( () => { console.log('[Cockpit.js] 2nd cleaned up!') }  )
+    } )
 
     const assignedClasses = [];
     let btnClass=''
