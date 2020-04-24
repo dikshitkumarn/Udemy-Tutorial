@@ -6,9 +6,9 @@ const Cockpit = props => {
     useEffect( () => {
       console.log("[Cockpit.js] useEffect()")
       setTimeout( () => alert("Jaga Cries!!") , 1000 )
-      //http: ...
+      //http: ... 
       return ( () => { console.log('[Cockpit.js] cleaned up!') }  )
-    } ,[props.Persons] )
+    } ,[] )
 
     useEffect( () => {
       console.log('[Cockpit.js] 2nd useEffect()')
