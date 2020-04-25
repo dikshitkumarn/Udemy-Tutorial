@@ -8,13 +8,14 @@ import Auxillary from '../hoc/Auxillary'
 class App extends Component {
   state = {
     persons: [
-      { id: 'asfa1', name: 'Jaga', age: 28 },
+      { id: 'asfa1', name: 'Jaga', age: '28' },
       { id: 'vasdf1', name: 'Dikshit', age: 29 },
       { id: 'asdf11', name: 'Logesh', age: 26 }
     ],
     otherState: 'some other value',
     showPersons: false,
-    showCockpit: true
+    showCockpit: true,
+    changeCounter:0
   };
 
   static getDerivedStateFromProps(props, state){
@@ -57,7 +58,7 @@ class App extends Component {
     const persons = [...this.state.persons];
     persons[personIndex] = person;
 
-    this.setState({ persons: persons });
+    this.setState( (prevState , props) => { return{ persons: persons , changeCounter:prevState.changeCounter+1 } });
   };
 
   deletePersonHandler = personIndex => {
