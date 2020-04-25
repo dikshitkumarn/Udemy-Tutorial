@@ -92,17 +92,18 @@ class App extends Component {
     return (
       // <withClass classes={classes.App} >
       <Auxillary>
-        <button onClick={ () => {this.setState ({showCockpit:false}) } } >Remove Cockpit</button>
-        {this.state.showCockpit ?
-        <Cockpit 
-          title={this.props.apptitle}
-          showPersons={this.state.showPersons}
-          showCockpit={this.state.showCockpit}
-          personsLength={this.state.persons.length}
-          Click={this.togglePersonsHandler}
-          login={this.loginHandler}
-        />: null }
-        <AuthContext.Provider value={{authentication: this.state.authentication}} >{persons}</AuthContext.Provider>
+        <AuthContext.Provider value={{authentication: this.state.authentication, login: this.loginHandler}} >
+          <button onClick={ () => {this.setState ({showCockpit:false}) } } >Remove Cockpit</button>
+          {this.state.showCockpit ?
+          <Cockpit 
+            title={this.props.apptitle}
+            showPersons={this.state.showPersons}
+            showCockpit={this.state.showCockpit}
+            personsLength={this.state.persons.length}
+            Click={this.togglePersonsHandler}
+          />: null }
+          {persons}
+        </AuthContext.Provider>
       </Auxillary>
       // </withClass>
     );

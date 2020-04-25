@@ -14,13 +14,16 @@ class Person extends Component {
 
   componentDidMount(){
     this.reference.current.focus()
+    console.log(this.context.authentication)
   }
+
+  static contextType = AuthContext
 
   render() {
     console.log('Person.js] rendering...')
       return( 
         <Auxillary>
-              <AuthContext.Consumer>{(context) => context.authentication ? <p>Authenticated!</p> : <p>Not Authenticated!!</p> }</AuthContext.Consumer>
+              {this.context.authentication ? <p>Authenticated!</p> : <p>Not Authenticated!!</p> }
               <p key="i1" onClick={this.props.click}>
                 I'm {this.props.name} and I am {this.props.age} years old!
               </p>

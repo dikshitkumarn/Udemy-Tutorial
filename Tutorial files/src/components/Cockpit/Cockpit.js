@@ -1,14 +1,15 @@
-import React , { useEffect,useRef } from 'react'
+import React , { useEffect, useRef, useContext } from 'react'
 import classes from './Cockpit.css'
-
+import AuthContext from '../../context/AuthContext'
 const Cockpit = props => {
 
   const reference=useRef(null)
-
+  const context = useContext(AuthContext)
     useEffect( () => {
       console.log("[Cockpit.js] useEffect()")
       // setTimeout( () => alert("Jaga Cries!!") , 1000 )
       reference.current.click()
+      console.log(context.authentication)
       //http: ... 
       return ( () => { console.log('[Cockpit.js] cleaned up!') }  )
     } ,[] )
@@ -36,7 +37,7 @@ const Cockpit = props => {
             <button ref={reference} className={btnClass} onClick={props.Click}>
             Toggle Persons
             </button>
-            <button onClick={props.login} >login</button>
+           <button onClick={context.login} >login</button>
         </div>
     )
 }
