@@ -8,7 +8,7 @@ import Auxillary from '../hoc/Auxillary'
 class App extends Component {
   state = {
     persons: [
-      { id: 'asfa1', name: 'Jaga', age: '28' },
+      { id: 'asfa1', name: 'Jaga', age: 28 },
       { id: 'vasdf1', name: 'Dikshit', age: 29 },
       { id: 'asdf11', name: 'Logesh', age: 26 }
     ],
