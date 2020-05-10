@@ -5,7 +5,7 @@ import App from './App';
 import registerServiceWorker from './registerServiceWorker';
 import axios from 'axios'
 
-axios.interceptors.request.use(
+const Interseptors_request = axios.interceptors.request.use(
     requestconfig => {
         console.log(requestconfig)
         // TO unblock requests return
@@ -17,7 +17,7 @@ axios.interceptors.request.use(
     }
 )
 
-axios.interceptors.response.use(
+const Interseptors_response = axios.interceptors.response.use(
     responseconfig => {
         console.log(responseconfig)
         //To use response in individual functions return
@@ -28,6 +28,9 @@ axios.interceptors.response.use(
         return Promise.reject(error)
     }
 )
+
+axios.interceptors.request.eject(Interseptors_request)
+axios.interceptors.response.eject(Interseptors_response)
 
 ReactDOM.render( <App />, document.getElementById( 'root' ) );
 registerServiceWorker();
