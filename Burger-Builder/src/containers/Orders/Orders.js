@@ -31,11 +31,18 @@ class Orders extends Component {
     }
 
     render(){
+        console.log(this.state.orders)
         let orders = <Spinner />
         return (
             <div>
-                <Order />
-                <Order />
+                {this.state.orders.map(
+                    order => (
+                        <Order key={order.id} 
+                            price={order.price} 
+                            ingredients={order.ingredients}
+                        />
+                    )
+                )}
             </div>
         )
     }

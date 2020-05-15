@@ -17,7 +17,7 @@ class Checkout extends Component {
         let price
         for (let i of params.entries()){
             if(i[0] === "price" ){
-                price = params[1]
+                price = +i[1]
             }
             else{
                 ingredients[i[0]] = +i[1]
@@ -35,7 +35,6 @@ class Checkout extends Component {
     }
 
     render(){
-        console.log(this.props)
         return (
             <div>
                 <CheckoutSummary 
@@ -43,7 +42,7 @@ class Checkout extends Component {
                   checkoutContinued={this.checkoutCancelled}
                   ingredients={this.state.ingredients} 
                   />
-                <Route path={ this.props.match.path + '/contact-data' } render={(props) => (<ContactData ingredients={this.state.ingredients} price={this.state.totalprice} {...props} />)} />
+                <Route path={ this.props.match.path + '/contact-data' } render={(props) => (<ContactData ingredients={this.state.ingredients} price={this.state.price} {...props} />)} />
             </div>
         )
     }
