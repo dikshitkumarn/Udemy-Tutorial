@@ -90,31 +90,37 @@ class BurgerBuilder extends Component {
     }
 
     purchaseContinueHandler = () => {
-        this.setState({loading:true})
-        // alert('You continue!');
-        const order = {
-            ingredients: this.state.ingredients,
-            price: this.state.totalPrice,
-            customer: {
-                name: 'Dikshitkumar N',
-                address: {
-                    street: 'jayam nagar',
-                    zipcode: '637208',
-                    country: 'India'
-                },
-                email: 'dikshitkumarn@gmail.com'
-            },
-            deliverymethod: 'faster'
-        }
-        axios.post('/orders.json',order)
-        .then(res => {
-            console.log(res)
-            this.setState({loading:false, purchasing:false })
+        this.props.history.push({
+            pathname: './checkout',
+            hash: '#submit',
+            search: "?quick-submit=true",
+            ingredients:{...this.state.ingredients}
         })
-        .catch(error => {
-            console.log(error)
-            this.setState({loading:false, purchasing:false })
-        })
+        // this.setState({loading:true})
+        // // alert('You continue!');
+        // const order = {
+        //     ingredients: this.state.ingredients,
+        //     price: this.state.totalPrice,
+        //     customer: {
+        //         name: 'Dikshitkumar N',
+        //         address: {
+        //             street: 'jayam nagar',
+        //             zipcode: '637208',
+        //             country: 'India'
+        //         },
+        //         email: 'dikshitkumarn@gmail.com'
+        //     },
+        //     deliverymethod: 'faster'
+        // }
+        // axios.post('/orders.json',order)
+        // .then(res => {
+        //     console.log(res)
+        //     this.setState({loading:false, purchasing:false })
+        // })
+        // .catch(error => {
+        //     console.log(error)
+        //     this.setState({loading:false, purchasing:false })
+        // })
     }
 
     render () {
