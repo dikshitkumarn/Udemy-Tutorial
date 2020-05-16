@@ -85,6 +85,7 @@ class ContactData extends Component {
                     ]
                 },
                 value: '',
+                validation: {}, // to fix the "Cannot read property 'required' of undefined" (Method 1)
                 isValid: true
             }
         },
@@ -94,7 +95,11 @@ class ContactData extends Component {
 
     checkValidity(value, rules){
         let isValid = true
-
+        // Method 2
+        if(!rules){
+            return true
+        }
+        //...
         if(rules.required){
             isValid = value.trim() !== "" && isValid
         }
@@ -153,7 +158,6 @@ class ContactData extends Component {
         for(let inputIdentifier in updatedOrderForm) {
             formValid = updatedOrderForm[inputIdentifier].isValid && formValid
         }
-        console.log(formValid)
         this.setState({orderForm: updatedOrderForm, formValid: formValid})
     }
 
