@@ -84,7 +84,7 @@ class ContactData extends Component {
                         {value: 'cheapest', displayValue: 'Cheapest'}
                     ]
                 },
-                value: 'fastest',
+                value: '',
                 validation: {}, // to fix the "Cannot read property 'required' of undefined" (Method 1)
                 isValid: true
             }
