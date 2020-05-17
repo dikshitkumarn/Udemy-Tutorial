@@ -28,10 +28,14 @@ const rootReducer = (state = initialState, action) => {
 const store = createStore(rootReducer)
 console.log(store.getState())
 
+// Subscription
+const subscription = store.subscribe(() => {
+    console.log("[Subscription] ",store.getState())
+})
+ 
 // Dispatching and Action
 store.dispatch({type: "INC_COUNTER"})
 store.dispatch({type: "ADD_COUNTER", value: 10})
 store.dispatch({type: "INC_COUNTER"})
-console.log( 'AFTER DISPATCH', store.getState())
+// console.log( 'AFTER DISPATCH', store.getState())
 
-// Subscription
