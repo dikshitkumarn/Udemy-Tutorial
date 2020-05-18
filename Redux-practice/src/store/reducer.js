@@ -1,4 +1,4 @@
-import * as actions from "../actions";
+import * as actions from "./actions";
 
 const initialState = {
     persons: []
@@ -13,16 +13,14 @@ const reducer =  (state = initialState, action) => {
                 name: 'Max',
                 age: Math.floor( Math.random() * 40 )
             }
-            let newpersons = [...state.persons]
-            newpersons.push(newPerson)
-            console.log(newpersons)
             return {
-                persons: newpersons
+                ...state,
+                persons: state.persons.concat(newPerson)
             }
         case(actions.DELETE_PERSON):
-            const updatedPersons = state.persons.filter(person => person.id != action.id)
             return {
-                persons: updatedPersons
+                ...state,
+                persons: state.persons.filter(person => person.id != action.id)
             }
     }
 
