@@ -1,5 +1,7 @@
 import * as actionTypes from './actionTypes'
 
+// You can also Do those simle logics here but reducer is a good place
+
 export const increment = () => {
     return {
         type: actionTypes.INCREMENT

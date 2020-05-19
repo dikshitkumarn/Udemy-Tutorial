@@ -6,7 +6,7 @@ const initialState = {
 
 const reducer = ( state = initialState, action ) => {
     // SWITCH
-
+    // Do simple logics Here like res * 2
     switch ( action.type ){
         case( actionTypes.STORE_RESULT ):
             return {
