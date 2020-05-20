@@ -16,8 +16,15 @@ export const orderFailue = error => {
     }
 }
 
+export const orderSubmitStart = () => {
+    return {
+        type: actionTypes.SUBMIT_START
+    }
+}
+
 export const orderSubmit = (order) => {
     return dispatch => {
+        dispatch(orderSubmitStart())
         axios.post( '/orders.json', order )
             .then( res => {
                 console.log(res.data)
