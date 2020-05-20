@@ -1,7 +1,6 @@
 import * as actionTypes from "../actions/actionTypes";
 
 const initialState = {
-    id: '',
     orders: [],
     error: null,
     loading: false
@@ -21,9 +20,8 @@ const orderSubmit = (state = initialState, action) => {
             }
             return {
                 ...state,
-                orders: state.order.concat(newOrder),
+                orders: state.orders.concat(newOrder),
                 error: null,
-                orderData: action.orderData,
                 loading: false
             }
         case(actionTypes.SUBMIT_FAILURE):

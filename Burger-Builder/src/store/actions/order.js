@@ -32,6 +32,7 @@ export const orderSubmit = (order) => {
                 // this.props.history.push( '/' );
             } )
             .catch( error => {
+                console.log(error)
                 dispatch(orderFailue( error ));
             } );
     }

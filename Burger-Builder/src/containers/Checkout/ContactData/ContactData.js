@@ -89,7 +89,7 @@ class ContactData extends Component {
                         {value: 'cheapest', displayValue: 'Cheapest'}
                     ]
                 },
-                value: '',
+                value: 'fastest',
                 validation: {}, // to fix the "Cannot read property 'required' of undefined" (Method 1)
                 valid: true
             }
@@ -204,9 +204,8 @@ class ContactData extends Component {
 
 const mapStateToProps = (state) => {
     return {
-        id: state.order.id,
-        error:state.order.error,
-        orderData: state.order.orderData,
+        ingredients: state.burgerBuilder.ingredients,
+        price: state.burgerBuilder.totalPrice,
         loading: state.order.loading
     }
 }
