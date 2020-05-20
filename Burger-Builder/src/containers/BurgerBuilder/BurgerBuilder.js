@@ -9,7 +9,7 @@ import OrderSummary from '../../components/Burger/OrderSummary/OrderSummary';
 import axios from '../../axios-orders'
 import Spinner from '../../components/UI/Spinner/Spinner'
 import withErrorHandler from "../../hoc/withErrorHandler/withErrorHandler";
-import * as actionTypes from "../../store/actions";
+import * as burgerBuilderActions from '../../store/actions/index'
 
 
 class BurgerBuilder extends Component {
@@ -18,19 +18,11 @@ class BurgerBuilder extends Component {
     //     this.state = {...}
     // }
     state = {
-        purchasing: false,
-        loading:false,
-        error: null
+        purchasing: false
     }
 
     componentDidMount = () => {
-        // axios.get('https://my-burger-builder-c4e24.firebaseio.com/ingredients.json')
-        // .then(res => {
-        //     this.setState({ingredients:res.data})
-        // })
-        // .catch(error => {
-        //     this.setState({error: error, loading:false})
-        // } )
+        this.props.onInitIngredients(axios)
     }
     updatePurchaseState (ingredients) {
         const sum = Object.keys( ingredients )
@@ -97,6 +89,7 @@ class BurgerBuilder extends Component {
     }
 
     render () {
+        console.log(this.props)
         const disabledInfo = {
             ...this.props.ingredients
         };
@@ -105,7 +98,7 @@ class BurgerBuilder extends Component {
         }
         let ordersummary = null
         
-        let burger = this.state.error ? <p>Ingredients cannot be Loaded!</p> : <Spinner />
+        let burger = this.props.error ? <p>Ingredients cannot be Loaded!</p> : <Spinner />
         if(this.props.ingredients){
         burger = (
             <Aux>
@@ -126,9 +119,6 @@ class BurgerBuilder extends Component {
             purchaseContinued={this.purchaseContinueHandler} 
         />
         }
-        if(this.state.loading){
-            ordersummary = <Spinner />
-        }
         // {salad: true, meat: false, ...}
         return (
             <Aux>
@@ -144,15 +134,17 @@ class BurgerBuilder extends Component {
 const mapStateToProps = (state) => {
     return {
         ingredients: state.ingredients,
+        error: state.error, 
         totalPrice: state.totalPrice
     }
 }
 
 const mapStateToDispatch = (dispatch) => {
     return {
-        onAddIngredient: (ingredientName) => dispatch({type: actionTypes.ADD_INGREDIENT, ingredientName: ingredientName}),
-        onDeleteIngredient: (ingredientName) => dispatch({type: actionTypes.REMOVE_INGREDIENT, ingredientName: ingredientName})
+        onAddIngredient: (ingredientName) => dispatch(burgerBuilderActions.addIngredient(ingredientName)),
+        onDeleteIngredient: (ingredientName) => dispatch(burgerBuilderActions.deleteIngredient(ingredientName)),
+        onInitIngredients: (axios) => dispatch(burgerBuilderActions.initIngredients(axios))
     }
 }
 
-export default connect(mapStateToProps, mapStateToDispatch)(withErrorHandler(BurgerBuilder,axios));
+export default connect(mapStateToProps, mapStateToDispatch)(withErrorHandler(BurgerBuilder, axios));

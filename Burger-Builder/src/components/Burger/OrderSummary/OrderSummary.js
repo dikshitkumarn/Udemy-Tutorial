@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { connect } from "react-redux";
 
 import Aux from '../../../hoc/_Aux/_Aux';
 import Button from '../../UI/Button/Button';
@@ -34,4 +35,10 @@ class OrderSummary extends Component {
     }
 }
 
-export default OrderSummary;
+const mapStateToProps = (state) => {
+    return {
+        loading: state.loading
+    }
+}
+
+export default connect(mapStateToProps)(OrderSummary);
