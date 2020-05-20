@@ -2,8 +2,8 @@ import * as actionTypes from "../actions/actionTypes";
 
 const initialState = {
     orders: [],
-    error: null,
-    loading: false
+    loading: false,
+    purchased: false
 }
 
 const orderSubmit = (state = initialState, action) => {
@@ -16,19 +16,24 @@ const orderSubmit = (state = initialState, action) => {
         case(actionTypes.SUBMIT_SUCCESS):
             const newOrder = {
                 ...action.orderData,
-                id: action.id
+                id: action.id,
             }
             return {
                 ...state,
                 orders: state.orders.concat(newOrder),
-                error: null,
-                loading: false
+                loading: false,
+                purchased: true
             }
         case(actionTypes.SUBMIT_FAILURE):
             return {
                 ...state,
-                error: action.error,
-                loading: false
+                loading: false,
+                purchased: false
+            }
+        case(actionTypes.SUBMIT_STARTED):
+            return {
+                ...state,
+                purchased: false
             }
         default:
             return state

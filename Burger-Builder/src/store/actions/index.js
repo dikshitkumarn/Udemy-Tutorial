@@ -6,5 +6,6 @@ export {
 } from './burgerBuilder'
 
 export {
-    orderSubmit
+    orderSubmit,
+    orderSubmitStarted
 } from './order'

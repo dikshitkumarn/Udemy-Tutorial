@@ -12,7 +12,6 @@ export const orderSuccess = (id, orderData) => {
 export const orderFailue = error => {
     return {
         type: actionTypes.SUBMIT_FAILURE,
-        error: error
     }
 }
 
@@ -29,13 +28,18 @@ export const orderSubmit = (order) => {
             .then( res => {
                 console.log(res.data)
                 dispatch( orderSuccess( res.data.name, order) );
+                dispatch(orderSubmitStarted())
                 // this.props.history.push( '/' );
             } )
             .catch( error => {
                 console.log(error)
-                dispatch(orderFailue( error ));
+                dispatch(orderFailue());
             } );
     }
 }
 
-export default orderSubmit
+export const orderSubmitStarted = () => {
+    return{
+        type: actionTypes.SUBMIT_STARTED
+    }
+}

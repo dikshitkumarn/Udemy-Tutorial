@@ -26,23 +26,24 @@ class Checkout extends Component {
     //     }
     //     this.setState({ingredients:ingredients, price: price})
     // }
-
+    // ,
+    // purchased: state.order.purchased
     checkoutCancelled = () => {
         this.props.history.goback()
     }
 
-    checkoutCancelled = () => {
+    checkoutContinued = () => {
         this.props.history.replace("/checkout/contact-data")
     }
 
     render(){
         let summary = <Redirect to="/" />
-        if(this.props.ingredients){
+        if(this.props.ingredients && !this.props.purchased ){
             summary = (
                 <div>
                     <CheckoutSummary 
                         checkoutCancelled={this.checkoutCancelled}
-                        checkoutContinued={this.checkoutCancelled}
+                        checkoutContinued={this.checkoutContinued}
                         ingredients={this.props.ingredients} 
                     />
                     <Route path={ this.props.match.path + '/contact-data' } component={ContactData} />
@@ -55,7 +56,8 @@ class Checkout extends Component {
 
 const mapPropsToState = (state) => {
     return {
-        ingredients: state.burgerBuilder.ingredients
+        ingredients: state.burgerBuilder.ingredients,
+        purchased: state.order.purchased
     }
 }
 
