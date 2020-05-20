@@ -6,5 +6,5 @@ export {
 } from './burgerBuilder'
 
 export {
-    
+    orderSubmit
 } from './order'

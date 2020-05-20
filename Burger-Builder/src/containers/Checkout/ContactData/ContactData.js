@@ -1,5 +1,8 @@
 import React, { Component } from 'react';
+import { connect } from "react-redux";
 
+import withErrorHandler from "../../../hoc/withErrorHandler/withErrorHandler";
+import * as orderSubmit from "../../../store/actions/order";
 import Button from '../../../components/UI/Button/Button';
 import Spinner from '../../../components/UI/Spinner/Spinner';
 import classes from './ContactData.css';
@@ -107,14 +110,10 @@ class ContactData extends Component {
             price: this.props.price,
             orderData: formData
         }
-        axios.post( '/orders.json', order )
-            .then( response => {
-                this.setState( { loading: false } );
-                this.props.history.push( '/' );
-            } )
-            .catch( error => {
-                this.setState( { loading: false } );
-            } );
+        this.props.onOrderSubmit(order)
+        if(!this.props.error){
+            this.props.history.push('/')
+        }
     }
 
     checkValidity(value, rules) {
@@ -192,7 +191,7 @@ class ContactData extends Component {
                 <Button btnType="Success" disabled={!this.state.formIsValid}>ORDER</Button>
             </form>
         );
-        if ( this.state.loading ) {
+        if ( this.props.loading ) {
             form = <Spinner />;
         }
         return (
@@ -204,4 +203,19 @@ class ContactData extends Component {
     }
 }
 
-export default ContactData;
+const mapStateToProps = (state) => {
+    return {
+        id: state.order.id,
+        error:state.order.error,
+        orderData: state.order.orderData,
+        loading: state.order.loading
+    }
+}
+
+const mapStateToDispatch = dispatch => {
+    return {
+        onOrderSubmit: (orderData) => dispatch(orderSubmit.orderSubmit(orderData))
+    }
+}
+
+export default connect(mapStateToProps, mapStateToDispatch)(withErrorHandler(ContactData, axios));
