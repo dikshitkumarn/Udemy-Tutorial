@@ -110,9 +110,9 @@ class ContactData extends Component {
             orderData: formData
         }
         this.props.onOrderSubmit(order)
-        if(!this.props.error){
-            this.props.history.push('/')
-        }
+        // if(!this.props.error){
+        //     this.props.history.push('/')
+        // }
     }
 
     checkValidity(value, rules) {
