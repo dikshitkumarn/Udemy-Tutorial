@@ -35,6 +35,24 @@ const orderSubmit = (state = initialState, action) => {
                 ...state,
                 purchased: false
             }
+        case(actionTypes.FETCH_ORDER_INIT):
+            return {
+                ...state,
+                loading:true
+            }
+        case(actionTypes.FETCH_ORDER_SUCCESS):
+        console.log(action.orders)
+            return{
+                ...state,
+                orders: action.orders,
+                loading: false
+            }
+        case(actionTypes.FETCH_ORDER_FAIL):
+            return{
+                ...state,
+                loading: false
+            }
+
         default:
             return state
     }

@@ -7,5 +7,6 @@ export {
 
 export {
     orderSubmit,
-    orderSubmitStarted
+    orderSubmitStarted,
+    fetchOrders
 } from './order'
