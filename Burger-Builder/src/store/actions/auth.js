@@ -16,8 +16,8 @@ export const checkAuth = (email, password, isSignUp) => {
             dispatch(authSuccess(res.data))
         })
         .catch(error => {
-            console.log(error)
-            dispatch(authFailure(error))
+            console.log(error.response.data.error)
+            dispatch(authFailure(error.response.data.error))
         })
     }
 }

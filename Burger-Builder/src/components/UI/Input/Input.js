@@ -8,11 +8,13 @@ const input = props => {
     let inputClasses = [classes.InputElement]
 
     let ValidationError = null;
-    if(props.invalid && props.touched){
-        ValidationError = <p style={{color: "red",fontSize: "smaller"}} >Please enter a valid value!</p>
-    }
 
-    if(props.invalid && props.shouldValid && props.touched ){
+    // Display invalid
+    // if(props.invalid && props.touched){
+    //     ValidationError = <p style={{color: "red",fontSize: "smaller"}} >Please enter a valid value!</p>
+    // }
+
+    if(props.invalid && props.shouldValidate && props.touched ){
         inputClasses.push(classes.Invalid)
     }
 
@@ -63,7 +65,7 @@ const input = props => {
         <div className={classes.Input} >
             <label className={classes.Label} > {props.label} </label>
             {inputElement}
-            {ValidationError}
+            {/* {ValidationError} */}
         </div>
     )
 }

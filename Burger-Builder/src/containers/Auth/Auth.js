@@ -125,12 +125,19 @@ class Auth extends Component{
                 )
             )
         }
+
+        let error = null
+        if(this.props.error){
+            error = <p style={{textTransform: "lowercase", color: "red"}} >{this.props.error.message} </p>
+        }
+
         return(
             <div className={classes.Auth} >
                 <form onSubmit={this.eventSubmitHandler} >
                     {form}
                     <Button btnType="Success" clicked= {this.eventSubmitHandler} > Submit </Button>
                 </form>
+                {error}
                 <Button btnType="Danger" clicked={this.switchAuthHandler} >SWITCH TO {this.state.signup ? "SIGNIN" : "SIGNUP" }</Button>
             </div>
         )
@@ -152,3 +159,4 @@ const mapDispatchToProps = dispatch => {
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(Auth)
+
