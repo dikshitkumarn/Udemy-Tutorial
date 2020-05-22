@@ -1,7 +1,7 @@
 import axios from "axios";
 import * as actionTypes from './actionTypes'
 
-export const checkAuth = (email, password) => {
+export const checkAuth = (email, password, isSignUp) => {
     return dispatch => {
         dispatch(authStart())
         const authData = {
@@ -9,7 +9,8 @@ export const checkAuth = (email, password) => {
             password: password,
             returnSecureToken: true
         }
-        axios.post("https://identitytoolkit.googleapis.com/v1/accounts:signUp?key=AIzaSyD02jZf6hjOBpirgm6wV_RXA80tMn_9zlw", authData)
+        let url = isSignUp ?  "https://identitytoolkit.googleapis.com/v1/accounts:signUp?key=AIzaSyD02jZf6hjOBpirgm6wV_RXA80tMn_9zlw": "https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key=AIzaSyD02jZf6hjOBpirgm6wV_RXA80tMn_9zlw"
+        axios.post(url, authData)
         .then(res => {
             console.log(res)
             dispatch(authSuccess(res.data))

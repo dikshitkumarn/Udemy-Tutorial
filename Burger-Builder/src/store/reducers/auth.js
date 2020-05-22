@@ -1,30 +1,34 @@
 import * as actionTypes from '../actions/actionTypes'
+import { updateObject } from "../utility";
 
 const initialState = {
     loading: false,
-    authData: null,
+    token: null,
+    userId: null,
     error: null
+}
+
+const authStart = (state, action) => {
+    return updateObject(state, {error: null, loading:true})
+}
+
+
+const authSuccess = (state, action) => {
+    return updateObject(state, {error:null, loading: false, token: action.authData.idToken, userId: action.authData.localId})
+}
+
+const authFailure = (state, action) => {
+    return updateObject(state, {loading: false, error: action.error})
 }
 
 const auth = (state = initialState, action) => {
     switch(action.type){
-        case(actionTypes.AUTH_START):
-            return{
-                ...state,
-                loading: true
-            }
-        case(actionTypes.AUTH_SUCCESS):
-            return{
-                ...state,
-                loading: false,
-                authData: action.authData
-            }
-        case(actionTypes.AUTH_FAILURE):
-            return {
-                ...state,
-                loading: false,
-                error: action.error
-            }
+        case(actionTypes.AUTH_START): return authStart(state, action)
+
+        case(actionTypes.AUTH_SUCCESS): return authSuccess(state, action)
+        
+        case(actionTypes.AUTH_FAILURE): return authFailure(state, action)
+        
         default:
             return state
     }
