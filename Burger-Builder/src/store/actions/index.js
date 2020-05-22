@@ -10,3 +10,7 @@ export {
     orderSubmitStarted,
     fetchOrders
 } from './order'
+
+export {
+    checkAuth
+} from './auth'
