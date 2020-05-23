@@ -21,10 +21,10 @@ export const orderSubmitStart = () => {
     }
 }
 
-export const orderSubmit = (order) => {
+export const orderSubmit = (order, authToken) => {
     return dispatch => {
         dispatch(orderSubmitStart())
-        axios.post( '/orders.json', order )
+        axios.post( '/orders.json?auth=' + authToken, order )
             .then( res => {
                 console.log(res.data)
                 dispatch( orderSuccess( res.data.name, order) );
@@ -50,10 +50,10 @@ export const fetchOrderInit = () => {
     }
 }
 
-export const fetchOrders = () => {
+export const fetchOrders = (authToken) => {
     return dispatch => {
         dispatch(fetchOrderInit())
-        axios.get('/orders.json')
+        axios.get('/orders.json?auth=' + authToken)
         .then(res => {
             const fetchedOrders = []
             for( let key in res.data ){
@@ -68,7 +68,6 @@ export const fetchOrders = () => {
         })
         .catch(error => {
             dispatch(fetchOrderFail(error))
-            this.setState({loading: false})
         })
     }
 }

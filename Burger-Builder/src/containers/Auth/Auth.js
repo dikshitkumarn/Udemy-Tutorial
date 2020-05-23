@@ -133,12 +133,14 @@ class Auth extends Component{
 
         return(
             <div className={classes.Auth} >
+                <h1> {this.state.signup ? "SIGNUP" : "LOGIN"} </h1>
                 <form onSubmit={this.eventSubmitHandler} >
                     {form}
                     <Button btnType="Success" clicked= {this.eventSubmitHandler} > Submit </Button>
                 </form>
                 {error}
                 <Button btnType="Danger" clicked={this.switchAuthHandler} >SWITCH TO {this.state.signup ? "SIGNIN" : "SIGNUP" }</Button>
+                <Button btnType="Danger" clicked={this.props.onLogOut} >LOG OUT</Button>
             </div>
         )
     }
@@ -154,7 +156,8 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => {
     return {
-        onAuthSubmit: (email, password, isSignUp) => dispatch(actions.checkAuth(email, password, isSignUp))
+        onAuthSubmit: (email, password, isSignUp) => dispatch(actions.checkAuth(email, password, isSignUp)),
+        onLogOut: () => dispatch(actions.logout())
     }
 }
 

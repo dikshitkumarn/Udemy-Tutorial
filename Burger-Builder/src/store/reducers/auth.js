@@ -21,6 +21,10 @@ const authFailure = (state, action) => {
     return updateObject(state, {loading: false, error: action.error})
 }
 
+const authLogOut = (state, action) => {
+    return updateObject(state, {token: null, userId: null})
+}
+
 const auth = (state = initialState, action) => {
     switch(action.type){
         case(actionTypes.AUTH_START): return authStart(state, action)
@@ -28,6 +32,8 @@ const auth = (state = initialState, action) => {
         case(actionTypes.AUTH_SUCCESS): return authSuccess(state, action)
         
         case(actionTypes.AUTH_FAILURE): return authFailure(state, action)
+
+        case(actionTypes.AUTH_LOGOUT): return authLogOut(state, action)
         
         default:
             return state
