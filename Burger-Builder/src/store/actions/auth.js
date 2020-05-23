@@ -13,6 +13,9 @@ export const checkAuth = (email, password, isSignUp) => {
         axios.post(url, authData)
         .then(res => {
             console.log(res)
+            const expirationTime = new Date(new Date().getTime() + res.data.expiresIn * 1000 )
+            localStorage.setItem("token", res.data.idToken )
+            localStorage.setItem("expirationTime", expirationTime )
             dispatch(authSuccess(res.data))
             dispatch(checkAuthTime(res.data.expiresIn))
         })
@@ -53,6 +56,8 @@ export const checkAuthTime = (expiryTime) => {
 }
 
 export const logout = () => {
+    localStorage.removeItem("token")
+    localStorage.removeItem('expirationTime')
     return {
         type: actionTypes.AUTH_LOGOUT
     }
