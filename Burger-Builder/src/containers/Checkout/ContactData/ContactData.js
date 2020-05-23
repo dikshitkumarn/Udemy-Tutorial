@@ -107,7 +107,8 @@ class ContactData extends Component {
         const order = {
             ingredients: this.props.ingredients,
             price: this.props.price,
-            orderData: formData
+            orderData: formData,
+            userId: this.props.userId
         }
         this.props.onOrderSubmit(order, this.props.authToken)
         // if(!this.props.error){
@@ -207,7 +208,8 @@ const mapStateToProps = (state) => {
         ingredients: state.burgerBuilder.ingredients,
         price: state.burgerBuilder.totalPrice,
         loading: state.order.loading,
-        authToken: state.auth.token
+        authToken: state.auth.token,
+        userId: state.auth.userId
     }
 }
 

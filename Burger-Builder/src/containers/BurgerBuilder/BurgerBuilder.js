@@ -10,6 +10,7 @@ import axios from '../../axios-orders'
 import Spinner from '../../components/UI/Spinner/Spinner'
 import withErrorHandler from "../../hoc/withErrorHandler/withErrorHandler";
 import * as Actions from '../../store/actions/index'
+import { withRouter } from 'react-router-dom';
 
 
 class BurgerBuilder extends Component {
@@ -67,7 +68,8 @@ class BurgerBuilder extends Component {
     // }
 
     purchaseHandler = () => {
-        this.props.isAuth?
+        const isAuth = this.props.authToken != null
+        isAuth?
         this.setState({purchasing: true}) : 
         this.props.history.push("/auth")
     }
@@ -92,7 +94,7 @@ class BurgerBuilder extends Component {
     }
 
     render () {
-        console.log(this.props)
+        const isAuth = this.props.authToken != null
         const disabledInfo = {
             ...this.props.ingredients
         };
@@ -107,7 +109,7 @@ class BurgerBuilder extends Component {
             <Aux>
                 <Burger ingredients={this.props.ingredients} />
                 <BuildControls
-                    isAuth= {this.props.isAuth}
+                    isAuth= {isAuth}
                     ingredientAdded={this.props.onAddIngredient}
                     ingredientRemoved={this.props.onDeleteIngredient}
                     disabled={disabledInfo}
@@ -140,8 +142,7 @@ const mapStateToProps = (state) => {
         ingredients: state.burgerBuilder.ingredients,
         error: state.burgerBuilder.error, 
         totalPrice: state.burgerBuilder.totalPrice,
-        authToken: state.auth.token,
-        iAuth: state.auth.token != null
+        authToken: state.auth.token
     }
 }
 
@@ -154,4 +155,4 @@ const mapStateToDispatch = (dispatch) => {
     }
 }
 
-export default connect(mapStateToProps, mapStateToDispatch)(withErrorHandler(BurgerBuilder, axios));
+export default withRouter(connect(mapStateToProps, mapStateToDispatch)(withErrorHandler(BurgerBuilder, axios)));
