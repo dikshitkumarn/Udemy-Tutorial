@@ -13,10 +13,11 @@ export const checkAuth = (email, password, isSignUp) => {
         axios.post(url, authData)
         .then(res => {
             console.log(res)
-            const expirationTime = new Date(new Date().getTime() + res.data.expiresIn * 1000 )
+            const expirationDate = new Date(new Date().getTime() + res.data.expiresIn * 1000 )
             localStorage.setItem("token", res.data.idToken )
-            localStorage.setItem("expirationTime", expirationTime )
-            dispatch(authSuccess(res.data))
+            localStorage.setItem("expirationDate", expirationDate )
+            localStorage.setItem("userId", res.data.localId)
+            dispatch(authSuccess(res.data.idToken, res.data.localId))
             dispatch(checkAuthTime(res.data.expiresIn))
         })
         .catch(error => {
@@ -32,11 +33,12 @@ export const authStart = () => {
     }
 }
 
-export const authSuccess = (authData) => {
-    console.log(authData)
+export const authSuccess = (idToken, userId) => {
+    console.log(idToken, userId)
     return {
         type: actionTypes.AUTH_SUCCESS,
-        authData: authData
+        idToken: idToken,
+        userId: userId
     }
 }
 
@@ -57,8 +59,28 @@ export const checkAuthTime = (expiryTime) => {
 
 export const logout = () => {
     localStorage.removeItem("token")
-    localStorage.removeItem('expirationTime')
+    localStorage.removeItem('expirationDate')
     return {
         type: actionTypes.AUTH_LOGOUT
+    }
+}
+
+export const checkStatus = () => {
+    return dispatch => {
+        const token = localStorage.getItem("token")
+        const userId = localStorage.getItem("userId")
+        const expirationDate = new Date(localStorage.getItem("expirationDate"))
+        if(!token){
+            dispatch(logout())
+        }
+        else{
+            if(expirationDate > new Date()){
+                dispatch(logout())
+            }
+            else{
+                dispatch(authSuccess(token, userId))
+                dispatch(checkAuthTime(expirationDate.getSeconds() - new Date().getSeconds()))
+            }
+        }
     }
 }
