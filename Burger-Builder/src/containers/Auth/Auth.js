@@ -131,6 +131,14 @@ class Auth extends Component{
             error = <p style={{textTransform: "lowercase", color: "red"}} >{this.props.error.message} </p>
         }
 
+        if(this.props.isAuth){
+            if(this.props.ingredients){
+                this.props.history.push("/checkout")
+            }
+            else
+            this.props.history.push("/")
+        }
+
         return(
             <div className={classes.Auth} >
                 <h1> {this.state.signup ? "SIGNUP" : "LOGIN"} </h1>
@@ -148,9 +156,10 @@ class Auth extends Component{
 
 const mapStateToProps = state => {
     return {
-        // authData: state.auth.authData,
         error: state.auth.error,
-        loading: state.auth.loading
+        loading: state.auth.loading,
+        isAuth: state.auth.token,
+        ingredients: state.burgerBuilder.ingredients
     }
 }
 
