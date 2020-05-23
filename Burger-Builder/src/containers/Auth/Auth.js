@@ -132,7 +132,7 @@ class Auth extends Component{
         }
 
         if(this.props.isAuth){
-            if(this.props.ingredients){
+            if(this.props.wasBuilding){
                 this.props.history.push("/checkout")
             }
             else
@@ -159,7 +159,7 @@ const mapStateToProps = state => {
         error: state.auth.error,
         loading: state.auth.loading,
         isAuth: state.auth.token,
-        ingredients: state.burgerBuilder.ingredients
+        wasBuilding: state.burgerBuilder.wasBuilding
     }
 }
 
