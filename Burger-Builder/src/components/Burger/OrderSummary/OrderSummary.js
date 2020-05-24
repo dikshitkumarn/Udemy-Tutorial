@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 
-import Aux from '../../../hoc/_Aux/_Aux';
+import Aux from '../../../hoc/Auxillary/Auxillary';
 import Button from '../../UI/Button/Button';
 
 class OrderSummary extends Component {
@@ -33,6 +33,5 @@ class OrderSummary extends Component {
         );
     }
 }
-
 
 export default OrderSummary;

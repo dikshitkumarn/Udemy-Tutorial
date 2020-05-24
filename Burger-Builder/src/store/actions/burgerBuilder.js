@@ -1,42 +1,41 @@
-import * as actionTypes from './actionTypes'
-import axios from "../../axios-orders";
+import * as actionTypes from './actionTypes';
+import axios from '../../axios-orders';
 
-export const addIngredient = (ingredientName) => {
+export const addIngredient = ( name ) => {
     return {
         type: actionTypes.ADD_INGREDIENT,
-        ingredientName: ingredientName
-    }
-}
+        ingredientName: name
+    };
+};
 
-export const deleteIngredient = (ingredientName) => {
+export const removeIngredient = ( name ) => {
     return {
         type: actionTypes.REMOVE_INGREDIENT,
-        ingredientName: ingredientName
-    }
-}
+        ingredientName: name
+    };
+};
 
-export const fetchIngredients = (ingredients) =>{
+export const setIngredients = ( ingredients ) => {
     return {
-        type: actionTypes.INIT_INGREDIENTS,
+        type: actionTypes.SET_INGREDIENTS,
         ingredients: ingredients
-    }
-}
+    };
+};
 
-export const fetchIngredientsFailed = (error) => {
+export const fetchIngredientsFailed = () => {
     return {
-        type: actionTypes.FETCH_INGREDIENTS_FAILED,
-        error: error
-    }
-}
-export const initIngredients = (authToken) => {
+        type: actionTypes.FETCH_INGREDIENTS_FAILED
+    };
+};
+
+export const initIngredients = () => {
     return dispatch => {
-        // axios.get('https://my-burger-builder-c4e24.firebaseio.com/ingredients.json?auth=' + authToken)
-        axios.get('https://my-burger-builder-c4e24.firebaseio.com/ingredients.json')
-        .then(res => {
-            dispatch(fetchIngredients(res.data))
-        })
-        .catch(error => {
-            dispatch(fetchIngredientsFailed(error))
-        } )
-    }
-}
+        axios.get( 'https://my-burger-builder-c4e24.firebaseio.com/ingredients.json' )
+            .then( response => {
+               dispatch(setIngredients(response.data));
+            } )
+            .catch( error => {
+                dispatch(fetchIngredientsFailed());
+            } );
+    };
+};
