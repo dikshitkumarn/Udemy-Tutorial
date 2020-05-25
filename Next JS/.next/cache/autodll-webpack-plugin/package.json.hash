@@ -1,0 +1,1 @@
+{"name":"next-js","version":"1.0.0","description":"next js tutorial","main":"index.js","scripts":{"dev":"next","build":"next build","start":"next start"},"author":{"name":"Dikshit"},"license":"ISC","dependencies":{"next":"^9.4.2","react":"^16.13.1","react-dom":"^16.13.1"},"readme":"ERROR: No README data found!","_id":"next-js@1.0.0"}
