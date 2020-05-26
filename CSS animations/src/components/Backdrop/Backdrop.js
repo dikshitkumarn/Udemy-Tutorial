@@ -4,8 +4,8 @@ import './Backdrop.css';
 
 const backdrop = (props) => {
 
-    // const classes = ["Backdrop", props.show ? "BackdropOpen" : "BackdropClose"]
-    let classes= ["BackdropClose"]
+    const classes = ["Backdrop", props.show ? "BackdropOpen" : "BackdropClose"]
+    // let classes= ["BackdropClose"]
 
     return(
         <div className={classes.join(' ')}></div>

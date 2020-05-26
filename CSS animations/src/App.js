@@ -26,7 +26,7 @@ class App extends Component {
       <div className="App">
         <h1>React Animations</h1>
         <button className="Button" onClick={() => this.setState(prevState => {return {showBlock: !prevState.showBlock}})} >Toggle</button>
-        <Transition in={this.state.showBlock} timeout={1000} mountOnEnter unmountOnExit >
+        <Transition in={this.state.showBlock} timeout={3000} mountOnEnter unmountOnExit >
           {state => 
             (<div style={{
               margin:'auto',
@@ -40,8 +40,14 @@ class App extends Component {
           }
         </Transition>
         <br />
-        { this.state.show ? <Modal closed={this.modalClose} show={this.state.show} /> : null }
-        { this.state.show ? <Backdrop show={this.state.show} /> : null }
+        <Transition in={this.state.show} timeout={1000} mountOnEnter unmountOnExit >
+          {state => (
+            <div>
+              <Modal closed={this.modalClose} show={state} />
+            </div>
+          )}
+        </Transition>
+        {this.state.show ? <Backdrop show /> : null}
         <button className="Button" onClick={this.modalOpen}>Open Modal</button>
         <h3>Animating Lists</h3>
         <List />
