@@ -2,6 +2,14 @@ import React, { Component } from 'react';
 import TransitionGroup from 'react-transition-group/TransitionGroup'
 import CSSTransition from 'react-transition-group/CSSTransition'
  
+// Other Animation packages
+
+// React Motion -> using this is little bit complex
+
+// React Move -> 3D objects
+
+// React router transition -> animating routes while the enter or exit
+
 import './List.css';
 
 class List extends Component {
