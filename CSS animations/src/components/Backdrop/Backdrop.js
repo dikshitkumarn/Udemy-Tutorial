@@ -1,14 +1,24 @@
 import React from 'react';
 
 import './Backdrop.css';
+import Transition from 'react-transition-group/Transition';
 
 const backdrop = (props) => {
 
-    const classes = ["Backdrop", props.show ? "BackdropOpen" : "BackdropClose"]
+    
     // let classes= ["BackdropClose"]
 
     return(
-        <div className={classes.join(' ')}></div>
+        <Transition in={props.show} timeout={3000} mountOnEnter unmountOnExit >
+            {
+                state => {
+                    const classes = ["Backdrop", state === 'entering' ? "BackdropOpen" : state === "exiting" ? "BackdropClose" : null]
+                    return (
+                        <div className={classes.join(' ')}></div>
+                    )
+                }
+            }
+        </Transition>
     );
 }
 export default backdrop;
