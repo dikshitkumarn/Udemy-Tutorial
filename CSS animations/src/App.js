@@ -23,8 +23,8 @@ class App extends Component {
     return (
       <div className="App">
         <h1>React Animations</h1>
-        <Modal closed={this.modalClose} show={this.state.show} />
-        <Backdrop show={this.state.show} />
+        { this.state.show ? <Modal closed={this.modalClose} show={this.state.show} /> : null }
+        { this.state.show ? <Backdrop show={this.state.show} /> : null }
         <button className="Button" onClick={this.modalOpen}>Open Modal</button>
         <h3>Animating Lists</h3>
         <List />
