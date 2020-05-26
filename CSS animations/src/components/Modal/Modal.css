@@ -15,13 +15,13 @@
     transition: all 1s ease-out;
 }
 
-/* .ModalOpen{
+.ModalOpen{
     animation: openModal 1s ease-out forwards;
 }
 
 .ModalClose{
     animation: closeModal 1s ease-out forwards;
-} */
+}
 
 .fade-slide-enter{
     opacity: 1;
