@@ -6,7 +6,6 @@ import './Search.css';
 const Search = React.memo(props => {
 
   const [searchValue, setSearchValue] = useState("")
-  const [filteredArray, setFilteredArray] = useState([])
   const { onUpdate } = props
 
   useEffect(() => {
@@ -16,7 +15,6 @@ const Search = React.memo(props => {
       return res.json()
     })
     .then(resData => {
-      console.log(resData)
       let ingredientsArray = []
       for (const key in resData){
         ingredientsArray.push({
@@ -24,17 +22,13 @@ const Search = React.memo(props => {
           ...resData[key]
         })
       }
-      console.log(ingredientsArray)
-      setFilteredArray([...ingredientsArray])
-    }).then(res => {
-      // onUpdate(filteredArray)
+      onUpdate([...ingredientsArray])
     })
   }, [searchValue, onUpdate])
 
   const updateSearchValue = (event) => {
     setSearchValue(event.target.value)
   }
-
   return (
     <section className="search">
       <Card>
