@@ -10,8 +10,7 @@ const Search = React.memo(props => {
   const { onUpdate } = props
 
   useEffect(() => {
-
-    setTimeout(() => {
+    const timer = setTimeout(() => {
       if(searchValue === input.current.value ){
         const query = searchValue.length === 0 ? '' : `?orderBy="title"&equalTo="${searchValue}"`
         fetch('https://react-hooks-a4367.firebaseio.com/ingredients.json' + query )
@@ -28,6 +27,9 @@ const Search = React.memo(props => {
           }
           onUpdate([...ingredientsArray])
         })
+          }
+          return () => {
+            clearTimeout(timer)
           }
         }, 500);
     
