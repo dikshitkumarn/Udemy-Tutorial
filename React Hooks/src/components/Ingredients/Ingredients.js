@@ -14,14 +14,14 @@ const Ingredients = () => {
     })
     .then(resData => {
       console.log(resData)
-      let ingredientArray = []
+      let ingredientsArray = []
       for (const key in resData){
-        ingredientArray.push({
+        ingredientsArray.push({
           id:key,
           ...resData[key]
         })
       }
-      setIngredients(ingredientArray)
+      setIngredients(ingredientsArray)
     })
   }, [])
 
@@ -41,14 +41,16 @@ const Ingredients = () => {
     })
   }
 
-  // const removeIngredient = 
+  const filteredIngredients = (filteredIngredientsArray) => {
+    setIngredients(filteredIngredientsArray)
+  }
 
   return (
     <div className="App">
       <IngredientForm  onAddIngredient = {addIngredient} />
 
       <section>
-        <Search />
+        <Search onUpdate={filteredIngredients} />
         <IngredientList ingredients = {ingredients} />
       </section>
     </div>
