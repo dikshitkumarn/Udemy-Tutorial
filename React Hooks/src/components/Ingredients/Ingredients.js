@@ -20,6 +20,10 @@ const Ingredients = () => {
     })
   }
 
+  const removeIngredient = id => {
+    setIngredients(prevIngredients => prevIngredients.filter(curr => curr.id !== id))
+  }
+
   const filteredIngredients = useCallback((filteredIngredientsArray) => {
     setIngredients(filteredIngredientsArray)
   },[])
@@ -30,7 +34,7 @@ const Ingredients = () => {
 
       <section>
         <Search onUpdate={filteredIngredients} />
-        <IngredientList ingredients = {ingredients} />
+        <IngredientList removeIngredient={removeIngredient} ingredients = {ingredients} />
       </section>
     </div>
   );
