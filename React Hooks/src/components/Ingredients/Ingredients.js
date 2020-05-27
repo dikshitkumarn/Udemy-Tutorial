@@ -9,7 +9,15 @@ const Ingredients = () => {
   const [ingredients, setIngredients] = useState([])
 
   const addIngredient = ingredient => {
-    setIngredients(prevState => [...prevState, {id: ingredient.title, ...ingredient}])
+    fetch('https://react-hooks-a4367.firebaseio.com/ingredients.json',{
+      method: 'POST',
+      headers: {'Context-Type': 'application/json'},
+      body: JSON.stringify(ingredient)
+    }).then(res => {
+        return res.json()
+    }).then(resData => {
+        setIngredients(prevState => [...prevState, {id: resData.name, ...ingredient}])
+    })
   }
 
   // const removeIngredient = 
