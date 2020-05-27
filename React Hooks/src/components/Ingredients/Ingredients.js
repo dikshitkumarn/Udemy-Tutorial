@@ -24,7 +24,10 @@ const Ingredients = () => {
       setIngredients(ingredientArray)
     })
   }, [])
-  
+
+  useEffect(() => {
+    console.log("Entered")
+  }, [ingredients])  
 
   const addIngredient = ingredient => {
     fetch('https://react-hooks-a4367.firebaseio.com/ingredients.json',{
