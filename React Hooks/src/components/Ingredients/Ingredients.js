@@ -1,4 +1,4 @@
-import React, { useState, useReducer, useCallback } from 'react';
+import React, {useReducer, useCallback } from 'react';
 
 import IngredientForm from './IngredientForm';
 import Search from './Search';
@@ -38,8 +38,8 @@ const Ingredients = () => {
   const [ingredients, dispatch] = useReducer(ingredientReducer, [])
   const [currentHttpStage, dispatchHttp] = useReducer(httpReducer, {loading: false, error: null})
   // const [ingredients, setIngredients] = useState([])
-  const [isLoading, setLoading] = useState(false)
-  const [error, setError] = useState(null)
+  // const [isLoading, setLoading] = useState(false)
+  // const [error, setError] = useState(null)
 
   const addIngredient = ingredient => {
     dispatchHttp({type: "START"})
