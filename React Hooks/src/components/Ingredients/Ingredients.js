@@ -18,43 +18,57 @@ const ingredientReducer = (intialIngredients, action) => {
   }
 }
 
+const httpReducer = (oldState, action) => {
+  switch(action.type){
+    case ('START'):
+      return {loading: true, error: null }
+    case ('SUCCESS'):
+      return {...oldState, loading: false}
+    case ('FAILURE'):
+      return {loading: false, error: action.errorMessage}
+    case ('MODAL_CLOSE'):
+      return {loading: false, error: null}
+    default:
+      throw new Error( "Don't reach here" )
+  }
+}
+
 const Ingredients = () => {
 
   const [ingredients, dispatch] = useReducer(ingredientReducer, [])
+  const [currentHttpStage, dispatchHttp] = useReducer(httpReducer, {loading: false, error: null})
   // const [ingredients, setIngredients] = useState([])
   const [isLoading, setLoading] = useState(false)
   const [error, setError] = useState(null)
 
   const addIngredient = ingredient => {
-    setLoading(true)
+    dispatchHttp({type: "START"})
     fetch('https://react-hooks-a4367.firebaseio.com/ingredients.json',{
       method: 'POST',
       headers: {'Context-Type': 'application/json'},
       body: JSON.stringify(ingredient)
     }).then(res => {
-      setLoading(false)
+      dispatchHttp({type: "SUCCESS"})
         return res.json()
     }).then(resData => {
         // setIngredients(prevState => [...prevState, {id: resData.name, ...ingredient}])
         dispatch({type: 'ADD', newIngredient: {id: resData.name, ...ingredient}})
     }).catch(error => {
-      setLoading(false)
-      setError('Something went wrong')
+      dispatchHttp({type: "FAILURE", errorMessage: "Something went wrong"})
     })
   }
 
   const removeIngredient = id => {
-    setLoading(true)
+    dispatchHttp({type: 'START'})
     fetch(`https://react-hooks-a4367.firebaseio.com/ingredients/${id}.json`,{
       method: 'DELETE'
     })
     .then(res => {
-      setLoading(false)
+      dispatchHttp({type: 'SUCCESS'})
       // setIngredients(prevIngredients => prevIngredients.filter(curr => curr.id !== id))
       dispatch({type: 'DELETE', id: id})
     }).catch(error => {
-      setLoading(false)
-      setError('Something went wrong')
+      dispatchHttp({type: 'FAILURE', errorMessage: "Something went wrong"})
     })
   }
 
@@ -64,13 +78,13 @@ const Ingredients = () => {
   },[])
 
   const modalClose = () => {
-    setError(null)
+    dispatchHttp({type: "MODAL_CLOSE"})
   }
 
   return (
     <div className="App">
-      {error && <Modal onClose={modalClose} > {error} </Modal>}
-      <IngredientForm isLoading={isLoading} onAddIngredient = {addIngredient} />
+      {currentHttpStage.error && <Modal onClose={modalClose} > {currentHttpStage.error} </Modal>}
+      <IngredientForm isLoading={currentHttpStage.loading} onAddIngredient = {addIngredient} />
 
       <section>
         <Search onUpdate={filteredIngredients} />
