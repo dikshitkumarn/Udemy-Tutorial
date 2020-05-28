@@ -1,4 +1,4 @@
-import React, {useReducer, useCallback } from 'react';
+import React, {useReducer, useCallback, useMemo } from 'react';
 
 import IngredientForm from './IngredientForm';
 import Search from './Search';
@@ -41,7 +41,7 @@ const Ingredients = () => {
   // const [isLoading, setLoading] = useState(false)
   // const [error, setError] = useState(null)
 
-  const addIngredient = ingredient => {
+  const addIngredient = useCallback(ingredient => {
     dispatchHttp({type: "START"})
     fetch('https://react-hooks-a4367.firebaseio.com/ingredients.json',{
       method: 'POST',
@@ -56,9 +56,9 @@ const Ingredients = () => {
     }).catch(error => {
       dispatchHttp({type: "FAILURE", errorMessage: "Something went wrong"})
     })
-  }
+  }, [])
 
-  const removeIngredient = id => {
+  const removeIngredient = useCallback(id => {
     dispatchHttp({type: 'START'})
     fetch(`https://react-hooks-a4367.firebaseio.com/ingredients/${id}.json`,{
       method: 'DELETE'
@@ -70,7 +70,7 @@ const Ingredients = () => {
     }).catch(error => {
       dispatchHttp({type: 'FAILURE', errorMessage: "Something went wrong"})
     })
-  }
+  }, [])
 
   const filteredIngredients = useCallback((filteredIngredientsArray) => {
     // setIngredients(filteredIngredientsArray)
@@ -81,6 +81,10 @@ const Ingredients = () => {
     dispatchHttp({type: "MODAL_CLOSE"})
   }
 
+  const ingredientList = useMemo(() => {
+    return <IngredientList removeIngredient={removeIngredient} ingredients = {ingredients} />
+  }, [removeIngredient, ingredients])
+
   return (
     <div className="App">
       {currentHttpStage.error && <Modal onClose={modalClose} > {currentHttpStage.error} </Modal>}
@@ -88,7 +92,7 @@ const Ingredients = () => {
 
       <section>
         <Search onUpdate={filteredIngredients} />
-        <IngredientList removeIngredient={removeIngredient} ingredients = {ingredients} />
+        {ingredientList}
       </section>
     </div>
   );
