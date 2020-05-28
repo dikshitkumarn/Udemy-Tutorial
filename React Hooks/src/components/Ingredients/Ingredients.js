@@ -4,6 +4,8 @@ import IngredientForm from './IngredientForm';
 import Search from './Search';
 import IngredientList from './IngredientList'
 import Modal from '../UI/ErrorModal'
+import useHttpHook from '../Hooks/httpHook';
+
 
 const ingredientReducer = (intialIngredients, action) => {
   switch(action.type){
@@ -18,59 +20,37 @@ const ingredientReducer = (intialIngredients, action) => {
   }
 }
 
-const httpReducer = (oldState, action) => {
-  switch(action.type){
-    case ('START'):
-      return {loading: true, error: null }
-    case ('SUCCESS'):
-      return {...oldState, loading: false}
-    case ('FAILURE'):
-      return {loading: false, error: action.errorMessage}
-    case ('MODAL_CLOSE'):
-      return {loading: false, error: null}
-    default:
-      throw new Error( "Don't reach here" )
-  }
-}
+
 
 const Ingredients = () => {
 
   const [ingredients, dispatch] = useReducer(ingredientReducer, [])
-  const [currentHttpStage, dispatchHttp] = useReducer(httpReducer, {loading: false, error: null})
+  const {isLoading, error, data, sendRequest} = useHttpHook()
   // const [ingredients, setIngredients] = useState([])
   // const [isLoading, setLoading] = useState(false)
   // const [error, setError] = useState(null)
 
   const addIngredient = useCallback(ingredient => {
-    dispatchHttp({type: "START"})
-    fetch('https://react-hooks-a4367.firebaseio.com/ingredients.json',{
-      method: 'POST',
-      headers: {'Context-Type': 'application/json'},
-      body: JSON.stringify(ingredient)
-    }).then(res => {
-      dispatchHttp({type: "SUCCESS"})
-        return res.json()
-    }).then(resData => {
-        // setIngredients(prevState => [...prevState, {id: resData.name, ...ingredient}])
-        dispatch({type: 'ADD', newIngredient: {id: resData.name, ...ingredient}})
-    }).catch(error => {
-      dispatchHttp({type: "FAILURE", errorMessage: "Something went wrong"})
-    })
-  }, [])
+    dispatch({type: "START"})
+      fetch(`https://react-hooks-a4367.firebaseio.com/ingredients.json`,{
+        method: "POST",
+        headers: {'Context-Type': 'application/json'},
+        body: JSON.stringify(ingredient)
+      }).then(res => {
+        dispatch({type: "SUCCESS"})
+          return res.json()
+      }).then(resData => {
+          // setIngredients(prevState => [...prevState, {id: resData.name, ...ingredient}])
+          dispatch({type: 'ADD', newIngredient: {id: resData.name, ...ingredient}})
+      }).catch(error => {
+        dispatch({type: "FAILURE", errorMessage: "Something went wrong"})
+      })}, [])
+ 
 
   const removeIngredient = useCallback(id => {
-    dispatchHttp({type: 'START'})
-    fetch(`https://react-hooks-a4367.firebaseio.com/ingredients/${id}.json`,{
-      method: 'DELETE'
-    })
-    .then(res => {
-      dispatchHttp({type: 'SUCCESS'})
-      // setIngredients(prevIngredients => prevIngredients.filter(curr => curr.id !== id))
-      dispatch({type: 'DELETE', id: id})
-    }).catch(error => {
-      dispatchHttp({type: 'FAILURE', errorMessage: "Something went wrong"})
-    })
-  }, [])
+    let url = `https://react-hooks-a4367.firebaseio.com/ingredients/${id}.json`
+    sendRequest(url, "DELETE")
+  }, [sendRequest])
 
   const filteredIngredients = useCallback((filteredIngredientsArray) => {
     // setIngredients(filteredIngredientsArray)
@@ -78,7 +58,7 @@ const Ingredients = () => {
   },[])
 
   const modalClose = () => {
-    dispatchHttp({type: "MODAL_CLOSE"})
+    // dispatchHttp({type: "MODAL_CLOSE"})
   }
 
   const ingredientList = useMemo(() => {
@@ -87,8 +67,8 @@ const Ingredients = () => {
 
   return (
     <div className="App">
-      {currentHttpStage.error && <Modal onClose={modalClose} > {currentHttpStage.error} </Modal>}
-      <IngredientForm isLoading={currentHttpStage.loading} onAddIngredient = {addIngredient} />
+      {error && <Modal onClose={modalClose} > {error} </Modal>}
+      <IngredientForm isLoading={isLoading} onAddIngredient = {addIngredient} />
 
       <section>
         <Search onUpdate={filteredIngredients} />
