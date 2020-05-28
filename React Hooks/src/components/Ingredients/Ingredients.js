@@ -1,13 +1,27 @@
-import React, { useState, useCallback } from 'react';
+import React, { useState, useReducer, useCallback } from 'react';
 
 import IngredientForm from './IngredientForm';
 import Search from './Search';
 import IngredientList from './IngredientList'
 import Modal from '../UI/ErrorModal'
 
+const ingredientReducer = (intialIngredients, action) => {
+  switch(action.type){
+    case ('ADD'):
+      return [...intialIngredients, action.newIngredient]
+    case ('DELETE'):
+      return intialIngredients.filter(ing => ing.id !== action.id)
+    case ('SET'):
+      return [...action.filteredIngredients]
+    default:
+      throw new Error("Don't Enter this")
+  }
+}
+
 const Ingredients = () => {
 
-  const [ingredients, setIngredients] = useState([])
+  const [ingredients, dispatch] = useReducer(ingredientReducer, [])
+  // const [ingredients, setIngredients] = useState([])
   const [isLoading, setLoading] = useState(false)
   const [error, setError] = useState(null)
 
@@ -21,7 +35,8 @@ const Ingredients = () => {
       setLoading(false)
         return res.json()
     }).then(resData => {
-        setIngredients(prevState => [...prevState, {id: resData.name, ...ingredient}])
+        // setIngredients(prevState => [...prevState, {id: resData.name, ...ingredient}])
+        dispatch({type: 'ADD', newIngredient: {id: resData.name, ...ingredient}})
     }).catch(error => {
       setLoading(false)
       setError('Something went wrong')
@@ -35,7 +50,8 @@ const Ingredients = () => {
     })
     .then(res => {
       setLoading(false)
-      setIngredients(prevIngredients => prevIngredients.filter(curr => curr.id !== id))
+      // setIngredients(prevIngredients => prevIngredients.filter(curr => curr.id !== id))
+      dispatch({type: 'DELETE', id: id})
     }).catch(error => {
       setLoading(false)
       setError('Something went wrong')
@@ -43,7 +59,8 @@ const Ingredients = () => {
   }
 
   const filteredIngredients = useCallback((filteredIngredientsArray) => {
-    setIngredients(filteredIngredientsArray)
+    // setIngredients(filteredIngredientsArray)
+    dispatch({type: 'SET', filteredIngredients: filteredIngredientsArray})
   },[])
 
   const modalClose = () => {
